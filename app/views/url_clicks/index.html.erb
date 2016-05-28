@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Url Clicks</h1>
+
+<table>
+  <table class="table table-striped">
+    <tr>
+      <th>Url</th>
+      <th>Ip</th>
+      <th>Occurred at</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @url_clicks.each do |url_click| %>
+      <tr>
+        <td><%= url_click.url %></td>
+        <td><%= url_click.ip %></td>
+        <td><%= url_click.occurred_at %></td>
+        <td><%= link_to 'Show', url_click %></td>
+        <td><%= link_to 'Edit', edit_url_click_path(url_click) %></td>
+        <td><%= link_to 'Destroy', url_click, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Url click', new_url_click_path %>

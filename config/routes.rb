@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :url_clicks
+  root 'urls#index'
+  resources :urls
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
