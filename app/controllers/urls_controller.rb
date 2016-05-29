@@ -29,8 +29,7 @@ class UrlsController < ApplicationController
     @url.user = current_user
     respond_to do |format|
       if @url.save
-        url_converter_service = UrlConverterService.new
-        @url.update(short_url: url_converter_service.convert_int_to_alphabet(@url.id))
+        @url.update(short_url: UrlConverterService.convert_int_to_alphabet(@url.id))
         format.html { redirect_to @url, notice: 'Url was successfully created.' }
         format.json { render :show, status: :created, location: @url }
       else
