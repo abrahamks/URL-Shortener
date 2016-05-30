@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Long url:</strong>
   <%= link_to @url.long_url, @url.long_url, target: "_blank"  %>
@@ -30,12 +28,12 @@
   <strong>Total unique clicks: </strong>
   <%= @url_clicks.select('ip').distinct.length %>
 </p>
-<%= @utms.sort.to_h %>
-<p>
-  <% @utms.each do |utm| %>
-    <%= utm %>
-  <% end %>
-</p>
+<p><strong>utm_source:</strong> <%= @url.utm_source %></p>
+<p><strong>utm_medium:</strong> <%= @url.utm_medium %></p>
+<p><strong>utm_campaign:</strong> <%= @url.utm_campaign %></p>
+<p><strong>utm_term:</strong> <%= @url.utm_term %></p>
+<p><strong>utm_content:</strong> <%= @url.utm_content %></p>
+
 <% @url_clicks.each do |click| %>
   <p>
     <%= click.inspect %>
