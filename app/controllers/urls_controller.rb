@@ -30,8 +30,7 @@ class UrlsController < ApplicationController
   # POST /urls
   # POST /urls.json
   def create
-    utms = Rack::Utils.parse_query URI(url_params['long_url']).query
-    utms.slice!('utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content')
+    utms = parse_utm_parameters
     @url = Url.new(url_params.merge(utms))
     @url.user = current_user
     respond_to do |format|
@@ -49,8 +48,7 @@ class UrlsController < ApplicationController
   # PATCH/PUT /urls/1
   # PATCH/PUT /urls/1.json
   def update
-    utms = Rack::Utils.parse_query URI(url_params['long_url']).query
-    utms.slice!('utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content')
+    utms = parse_utm_parameters
     respond_to do |format|
       if @url.update(url_params.merge(utms))
         format.html { redirect_to @url, notice: 'Url was successfully updated.' }
@@ -83,5 +81,17 @@ class UrlsController < ApplicationController
       params.require(:url).permit(:long_url, :short_url, :user_id,
                                   :utm_source, :utm_medium, :utm_campaign,
                                   :utm_term, :utm_content)
+    end
+
+    def parse_utm_parameters
+      utms = Rack::Utils.parse_query URI(url_params['long_url']).query
+      utms.slice!('utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content')
+      utm_parameters = Hash.new
+      utm_parameters['utm_source'] = utms['utm_source']
+      utm_parameters['utm_medium'] = utms['utm_medium']
+      utm_parameters['utm_campaign'] = utms['utm_campaign']
+      utm_parameters['utm_term'] = utms['utm_term']
+      utm_parameters['utm_content'] = utms['utm_content']
+      utm_parameters
     end
 end
