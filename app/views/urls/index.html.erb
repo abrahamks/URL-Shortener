@@ -1,4 +1,3 @@
-
 <h1>Listing Urls</h1>
 <%= link_to 'New Url', new_url_path %>
 <table class="table table-striped">
@@ -10,6 +9,11 @@
       <th>Created at</th>
       <th>Click</th>
       <th>Unique Click</th>
+      <th>utm_source</th>
+      <th>utm_medium</th>
+      <th>utm_campaign</th>
+      <th>utm_term</th>
+      <th>utm_content</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -25,6 +29,11 @@
         <td><%= url.created_at %></td>
         <td><%= @clicks[url.id] %></td>
         <td><%= @unique_clicks[url.id] %></td>
+        <td><%= url.utm_source %></td>
+        <td><%= url.utm_medium %></td>
+        <td><%= url.utm_campaign %></td>
+        <td><%= url.utm_term %></td>
+        <td><%= url.utm_content %></td>
         <td><%= link_to 'Show', url %></td>
         <td><%= link_to 'Edit', edit_url_path(url) %></td>
         <td><%= link_to 'Destroy', url, method: :delete, data: { confirm: 'Are you sure?' } %></td>

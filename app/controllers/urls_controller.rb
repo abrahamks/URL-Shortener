@@ -14,7 +14,11 @@ class UrlsController < ApplicationController
   # GET /urls/1.json
   def show
     @url_clicks = UrlClick.where(url_id: @url.id)
-    @url_click_days = @url_clicks.group_by {|url| url.occurred_at.to_date }
+    @url_click_days = @url_clicks.sort_by(&:occurred_at).reverse.group_by {|url| url.occurred_at.to_date }
+    @url_click_days.each do |k, v|
+      ap k
+      ap v.size
+    end
     # @utms = Rack::Utils.parse_query URI(@url.long_url).query
   end
 
@@ -31,6 +35,7 @@ class UrlsController < ApplicationController
   # POST /urls.json
   def create
     utms = parse_utm_parameters
+    check_protocol_on_url
     @url = Url.new(url_params.merge(utms))
     @url.user = current_user
     respond_to do |format|
@@ -49,6 +54,7 @@ class UrlsController < ApplicationController
   # PATCH/PUT /urls/1.json
   def update
     utms = parse_utm_parameters
+    check_protocol_on_url
     respond_to do |format|
       if @url.update(url_params.merge(utms))
         format.html { redirect_to @url, notice: 'Url was successfully updated.' }
@@ -78,7 +84,7 @@ class UrlsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def url_params
-      params.require(:url).permit(:long_url, :short_url, :user_id,
+      @url_params ||= params.require(:url).permit(:long_url, :short_url, :user_id,
                                   :utm_source, :utm_medium, :utm_campaign,
                                   :utm_term, :utm_content)
     end
@@ -93,5 +99,11 @@ class UrlsController < ApplicationController
       utm_parameters['utm_term'] = utms['utm_term']
       utm_parameters['utm_content'] = utms['utm_content']
       utm_parameters
+    end
+    
+    def check_protocol_on_url
+      unless url_params['long_url'].include? '//'
+        url_params['long_url'] = "http://#{url_params['long_url']}"
+      end
     end
 end

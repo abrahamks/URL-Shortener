@@ -33,16 +33,30 @@
 <p><strong>utm_campaign:</strong> <%= @url.utm_campaign %></p>
 <p><strong>utm_term:</strong> <%= @url.utm_term %></p>
 <p><strong>utm_content:</strong> <%= @url.utm_content %></p>
+<p>
 
-<% @url_clicks.each do |click| %>
-  <p>
-    <%= click.inspect %>
-  </p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>date</th>
+      <th>clicks</th>
+    </tr>
+  </thead>
+  <tbody>
+
+<% @url_click_days.each do |k, v| %>
+  <tr>
+    <td>
+      <%= k %>
+    </td>
+    <td>
+      <%= v.size %>
+    </td>
+  </tr>
+</tbody>
+
 <% end %>
-<% @url_click_days.each do |click_per_day| %>
-  <p>
-    <%= click_per_day.inspect %>
-  </p>
-<% end %>
+</p>
 <%= link_to 'Edit', edit_url_path(@url) %> |
 <%= link_to 'Back', urls_path %>
