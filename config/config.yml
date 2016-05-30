@@ -1,0 +1,11 @@
+common: &common
+  rabbitmq_host: 127.0.0.1
+  rabbitmq_port: 5672
+  rabbitmq_queue_name: url_click_log
+  rabbitmq_channel_prefetch: 10
+  client_host: cr.sl
+development:
+  <<: *common
+
+production:
+  <<: *common

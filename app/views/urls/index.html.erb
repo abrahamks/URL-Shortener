@@ -1,6 +1,6 @@
 
 <h1>Listing Urls</h1>
-
+<%= link_to 'New Url', new_url_path %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -8,6 +8,8 @@
       <th>Short url</th>
       <th>Created by</th>
       <th>Created at</th>
+      <th>Click</th>
+      <th>Unique Click</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,10 +17,14 @@
   <tbody>
     <% @urls.each do |url| %>
       <tr>
-        <td><%= url.long_url %></td>
-        <td><%= url.short_url %></td>
+        <td><%= link_to url.long_url, url.long_url, target: "_blank"  %></td>
+        <td><%= link_to "http://#{APP_CONFIG['client_host']}/#{url.short_url}" ,
+            "http://#{APP_CONFIG['client_host']}/#{url.short_url}",
+            target: "_blank"  %></td>
         <td><%= url.user.name %></td>
         <td><%= url.created_at %></td>
+        <td><%= @clicks[url.id] %></td>
+        <td><%= @unique_clicks[url.id] %></td>
         <td><%= link_to 'Show', url %></td>
         <td><%= link_to 'Edit', edit_url_path(url) %></td>
         <td><%= link_to 'Destroy', url, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,5 +34,3 @@
 </table>
 
 <br>
-
-<%= link_to 'New Url', new_url_path %>

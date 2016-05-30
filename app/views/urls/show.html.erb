@@ -2,16 +2,17 @@
 
 <p>
   <strong>Long url:</strong>
-  <%= @url.long_url %>
+  <%= link_to @url.long_url, @url.long_url, target: "_blank"  %>
 </p>
-
 <p>
   <strong>Short url:</strong>
-  <%= @url.short_url %>
+  <%= link_to "http://#{APP_CONFIG['client_host']}/#{@url.short_url}" ,
+      "http://#{APP_CONFIG['client_host']}/#{@url.short_url}",
+      target: "_blank"  %>
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong>Created by:</strong>
   <%= @url.user.name %>
 </p>
 
@@ -20,6 +21,30 @@
   <%= @url.created_at %>
 </p>
 
+<p>
+  <strong>Total clicks: </strong>
+  <%= @url_clicks.length %>
+</p>
 
+<p>
+  <strong>Total unique clicks: </strong>
+  <%= @url_clicks.select('ip').distinct.length %>
+</p>
+<%= @utms.sort.to_h %>
+<p>
+  <% @utms.each do |utm| %>
+    <%= utm %>
+  <% end %>
+</p>
+<% @url_clicks.each do |click| %>
+  <p>
+    <%= click.inspect %>
+  </p>
+<% end %>
+<% @url_click_days.each do |click_per_day| %>
+  <p>
+    <%= click_per_day.inspect %>
+  </p>
+<% end %>
 <%= link_to 'Edit', edit_url_path(@url) %> |
 <%= link_to 'Back', urls_path %>

@@ -6,11 +6,16 @@ class UrlsController < ApplicationController
   # GET /urls.json
   def index
     @urls = Url.all
+    @clicks = UrlClick.group(:url_id).count
+    @unique_clicks = UrlClick.group(:url_id).select(:ip).distinct.count
   end
 
   # GET /urls/1
   # GET /urls/1.json
   def show
+    @url_clicks = UrlClick.where(url_id: @url.id)
+    @url_click_days = @url_clicks.group_by {|url| url.occurred_at.to_date }
+    @utms = Rack::Utils.parse_query URI(@url.long_url).query
   end
 
   # GET /urls/new
